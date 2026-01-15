@@ -19,7 +19,7 @@ template:
                 config: default
                 target:
                   type: repository
-                  workspace: <+input>
+                  workspace: <+stepGroup.variables.WORKSPACE>
                   detection: auto
                 advanced:
                   log:
@@ -34,7 +34,7 @@ template:
                 config: code
                 target:
                   type: repository
-                  workspace: <+input>
+                  workspace: <+stepGroup.variables.WORKSPACE>
                   detection: auto
                 advanced:
                   log:
@@ -53,7 +53,7 @@ template:
                 config: default
                 target:
                   type: repository
-                  workspace: <+input>
+                  workspace: <+stepGroup.variables.WORKSPACE>
                   detection: auto
                 advanced:
                   log:
