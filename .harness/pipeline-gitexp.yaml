@@ -48,4 +48,4 @@ pipeline:
                         level: info
                     privileged: true
                     auth:
-                      access_token: <+secrets.getValue("org.snyk_secret_from_secret_manager")
+                      access_token: a524b527-79df-4630-a57f-7955ef67bab7
