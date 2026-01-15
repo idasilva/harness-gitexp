@@ -1,0 +1,49 @@
+pipeline:
+  name: track pipelines
+  identifier: track_pipelines
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github_main
+        repoName: harness-gitexp
+        build: <+input>
+  stages:
+    - stage:
+        name: Security Scans
+        identifier: Security_Scans
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Linux
+            arch: Arm64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Snyk
+                  name: Snyk
+                  identifier: Snyk
+                  spec:
+                    mode: orchestration
+                    config: code
+                    target:
+                      type: repository
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    auth:
+                      access_token: <+secrets.getValue("org.snyk_secret_from_secret_manager")
