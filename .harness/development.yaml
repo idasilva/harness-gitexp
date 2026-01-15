@@ -1,0 +1,8 @@
+environment:
+  orgIdentifier: default
+  projectIdentifier: grand_line
+  identifier: development
+  tags:
+    infra/provisioned-by: terraform
+  name: Development
+  type: PreProduction
