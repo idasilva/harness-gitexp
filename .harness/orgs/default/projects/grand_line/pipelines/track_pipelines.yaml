@@ -14,7 +14,7 @@ pipeline:
     - stage:
         name: Security Scans
         identifier: Security_Scans
-        description: ""
+        description: This is a Snyk security Scanner
         type: CI
         spec:
           cloneCodebase: true
