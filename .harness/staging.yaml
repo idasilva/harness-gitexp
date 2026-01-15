@@ -1,0 +1,8 @@
+environment:
+  orgIdentifier: default
+  projectIdentifier: grand_line
+  identifier: staging
+  tags:
+    infra/provisioned-by: terraform
+  name: Staging
+  type: PreProduction
