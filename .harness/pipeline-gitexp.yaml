@@ -8,8 +8,9 @@ pipeline:
     ci:
       codebase:
         connectorRef: github_main
-        repoName: harness-gitexp
+        repoName: harness
         build: <+input>
+        sparseCheckout: []
   stages:
     - stage:
         name: Security Scans
@@ -40,6 +41,7 @@ pipeline:
                     config: code
                     target:
                       type: repository
+                      workspace: /harness/services/luffy
                       detection: auto
                     advanced:
                       log:
