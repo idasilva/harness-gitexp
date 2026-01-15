@@ -46,6 +46,14 @@ pipeline:
                     advanced:
                       log:
                         level: info
+                      fail_on_severity: low
                     privileged: true
                     auth:
                       access_token: a524b527-79df-4630-a57f-7955ef67bab7
+              - step:
+                  type: Run
+                  name: Check Validation fail
+                  identifier: Check_Validation_fail
+                  spec:
+                    shell: Sh
+                    command: echo "this need to be executed anyway"
