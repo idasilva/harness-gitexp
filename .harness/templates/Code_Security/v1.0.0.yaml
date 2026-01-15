@@ -1,0 +1,61 @@
+template:
+  name: Code Security
+  identifier: Code_Security
+  versionLabel: v1.0.0
+  type: StepGroup
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    stageType: CI
+    steps:
+      - parallel:
+          - step:
+              type: Gitleaks
+              name: Gitleaks
+              identifier: Gitleaks
+              spec:
+                mode: orchestration
+                config: default
+                target:
+                  type: repository
+                  detection: auto
+                advanced:
+                  log:
+                    level: info
+                  fail_on_severity: critical
+          - step:
+              type: Snyk
+              name: Snyk
+              identifier: Snyk_1
+              spec:
+                mode: orchestration
+                config: code
+                target:
+                  type: repository
+                  workspace: /harness/services/luffy
+                  detection: auto
+                advanced:
+                  log:
+                    level: info
+                  fail_on_severity: none
+                privileged: true
+                auth:
+                  access_token: a524b527-79df-4630-a57f-7955ef67bab7
+              description: This is a security Scanner.
+          - step:
+              type: Owasp
+              name: OWASP Dependency-Check
+              identifier: Owasp
+              spec:
+                mode: orchestration
+                config: default
+                target:
+                  type: repository
+                  detection: auto
+                advanced:
+                  log:
+                    level: info
+                  fail_on_severity: critical
+                  args:
+                    cli: "--disableOssIndex"
