@@ -33,15 +33,15 @@ template:
                 config: code
                 target:
                   type: repository
-                  workspace: /harness/services/luffy
+                  workspace: <+input>
                   detection: auto
                 advanced:
                   log:
                     level: info
-                  fail_on_severity: none
+                  fail_on_severity: <+input>
                 privileged: true
                 auth:
-                  access_token: a524b527-79df-4630-a57f-7955ef67bab7
+                  access_token: <+secrets.getValue("org.snyk_secret_from_secret_manager")>
               description: This is a security Scanner.
           - step:
               type: Owasp
