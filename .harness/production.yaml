@@ -1,0 +1,8 @@
+environment:
+  orgIdentifier: default
+  projectIdentifier: grand_line
+  identifier: production
+  tags:
+    infra/provisioned-by: terraform
+  name: Production
+  type: PreProduction
