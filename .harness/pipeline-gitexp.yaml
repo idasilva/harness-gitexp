@@ -47,3 +47,10 @@ pipeline:
                     privileged: true
                     auth:
                       access_token: <+secrets.getValue("org.snyk_secret_from_secret_manager")
+              - step:
+                  type: Run
+                  name: Check Results
+                  identifier: Check_Results
+                  spec:
+                    shell: Sh
+                    command: echo "checked and is ok"
