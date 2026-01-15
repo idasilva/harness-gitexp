@@ -50,6 +50,12 @@ pipeline:
                     privileged: true
                     auth:
                       access_token: a524b527-79df-4630-a57f-7955ef67bab7
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - Unknown
+                        action:
+                          type: Ignore
               - step:
                   type: Run
                   name: Check Validation fail
