@@ -1,0 +1,40 @@
+inputSet:
+  pipeline:
+    identifier: DEVOPS_CONTINUOUS_INTEGRATION_TEMPLATE
+    properties:
+      ci:
+        codebase:
+          build:
+            spec:
+              branch: main
+            type: branch
+    stages:
+      - stage:
+          identifier: Build_and_Package
+          type: CI
+          spec:
+            execution:
+              steps:
+                - stepGroup:
+                    identifier: Code_Security
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/nami
+                - stepGroup:
+                    identifier: Build_Sing_and_Scan
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/nami
+                          - name: DOCKER_REPOSITORY
+                            type: String
+                            value: idasilva6/nami
+  name: nami-services
+  identifier: namiservices
+  orgIdentifier: default
+  projectIdentifier: grand_line
