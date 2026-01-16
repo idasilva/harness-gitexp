@@ -69,3 +69,4 @@ template:
         value: <+input>
         description: ""
         required: false
+  description: This template needs to be use by container based application, it will build using the Dockerfile, Sing it using Cosing and scan use tryvi.
