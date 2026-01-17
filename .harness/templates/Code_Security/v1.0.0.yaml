@@ -76,6 +76,8 @@ template:
                   log:
                     level: info
                   fail_on_severity: low
+                  args:
+                    cli: "-Dsonar.organization=idasilva"
                 auth:
                   access_token: 998287576ca9f15163331b4ccaa7ef9313345aa2
                   domain: https://sonarcloud.io/
