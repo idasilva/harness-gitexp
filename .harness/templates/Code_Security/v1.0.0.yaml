@@ -24,7 +24,7 @@ template:
                 advanced:
                   log:
                     level: info
-                  fail_on_severity: low
+                  fail_on_severity: high
           - step:
               type: Snyk
               name: Snyk
@@ -39,7 +39,7 @@ template:
                 advanced:
                   log:
                     level: info
-                  fail_on_severity: low
+                  fail_on_severity: high
                 privileged: true
                 auth:
                   access_token: <+secrets.getValue("org.snyk_secret_from_secret_manager")>
@@ -58,7 +58,7 @@ template:
                 advanced:
                   log:
                     level: info
-                  fail_on_severity: low
+                  fail_on_severity: high
                   args:
                     cli: "--disableOssIndex"
           - step:
@@ -75,7 +75,7 @@ template:
                 advanced:
                   log:
                     level: info
-                  fail_on_severity: low
+                  fail_on_severity: high
                   args:
                     cli: "-Dsonar.organization=idasilva"
                 auth:
