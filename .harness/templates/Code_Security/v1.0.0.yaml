@@ -61,6 +61,27 @@ template:
                   fail_on_severity: low
                   args:
                     cli: "--disableOssIndex"
+          - step:
+              type: Sonarqube
+              name: SonarCloud
+              identifier: SonarCloud
+              spec:
+                mode: orchestration
+                config: default
+                target:
+                  type: repository
+                  workspace: <+stepGroup.variables.WORKSPACE>
+                  detection: auto
+                advanced:
+                  log:
+                    level: info
+                  fail_on_severity: low
+                auth:
+                  access_token: 998287576ca9f15163331b4ccaa7ef9313345aa2
+                  domain: https://sonarcloud.io/
+                  ssl: true
+                tool:
+                  project_key: idasilva_harness
     variables:
       - name: WORKSPACE
         type: String
