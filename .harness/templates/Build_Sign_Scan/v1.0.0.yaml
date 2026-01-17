@@ -34,7 +34,7 @@ template:
               echo '<+secrets.getValue("cosign_private_ket_file")>' > cosign.key
               export COSIGN_PASSWORD='<+secrets.getValue("org.cosing_password")>'
 
-              cosign sign --key cosign.key --registry-username <+stepGroup.variables.DOCKER_REPOSITORY>.split("/")> --registry-password '<+secrets.getValue("dchub_token")>' --yes $IMAGE_TAG
+              cosign sign --key cosign.key --registry-username '<+stepGroup.variables.DOCKER_REPOSITORY.split("/")[0]>' --registry-password '<+secrets.getValue("dchub_token")>' --yes $IMAGE_TAG
               rm -f cosign.key
             envVariables:
               COSIGN_PASSWORD: <+secrets.getValue("org.cosing_password")>
