@@ -1,0 +1,34 @@
+trigger:
+  name: GH - TRIGER
+  identifier: GH_TRIGER
+  enabled: true
+  encryptedWebhookSecretIdentifier: ""
+  description: ""
+  tags: {}
+  orgIdentifier: default
+  stagesToExecute: []
+  projectIdentifier: grand_line
+  pipelineIdentifier: DEVOPS_CONTINUOUS_INTEGRATION_TEMPLATE
+  source:
+    type: Webhook
+    spec:
+      type: Github
+      spec:
+        type: PullRequest
+        spec:
+          connectorRef: github_main
+          autoAbortPreviousExecutions: false
+          payloadConditions:
+            - key: targetBranch
+              operator: Equals
+              value: main
+          headerConditions: []
+          repoName: harness-gitexp
+          actions:
+            - Open
+            - Reopen
+            - Edit
+            - Synchronize
+  pipelineBranchName: main
+  inputSetRefs:
+    - luffyservice
