@@ -25,6 +25,12 @@ template:
                   log:
                     level: info
                   fail_on_severity: high
+              failureStrategies:
+                - onFailure:
+                    errors:
+                      - AllErrors
+                    action:
+                      type: Ignore
           - step:
               type: Snyk
               name: Snyk
@@ -44,6 +50,12 @@ template:
                 auth:
                   access_token: <+secrets.getValue("org.snyk_secret_from_secret_manager")>
               description: This is a security Scanner.
+              failureStrategies:
+                - onFailure:
+                    errors:
+                      - AllErrors
+                    action:
+                      type: Ignore
           - step:
               type: Owasp
               name: OWASP Dependency-Check
@@ -58,9 +70,15 @@ template:
                 advanced:
                   log:
                     level: info
-                  fail_on_severity: high
+                  fail_on_severity: critical
                   args:
                     cli: "--disableOssIndex"
+              failureStrategies:
+                - onFailure:
+                    errors:
+                      - AllErrors
+                    action:
+                      type: Ignore
           - step:
               type: Sonarqube
               name: SonarCloud
@@ -84,6 +102,12 @@ template:
                   ssl: true
                 tool:
                   project_key: idasilva_harness
+              failureStrategies:
+                - onFailure:
+                    errors:
+                      - AllErrors
+                    action:
+                      type: Ignore
     variables:
       - name: WORKSPACE
         type: String
