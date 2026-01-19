@@ -1,0 +1,21 @@
+template:
+  name: Get Variable From pipeline
+  identifier: Get_Variable_From_pipeline
+  versionLabel: v1.0.0
+  type: Step
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: ShellScript
+    spec:
+      shell: Bash
+      source:
+        type: Inline
+        spec:
+          script: echo "<+pipeline.variables.my_var>"
+      executionTarget: {}
+      delegateSelectors: []
+      environmentVariables: []
+      outputVariables: []
+    timeout: 10m
