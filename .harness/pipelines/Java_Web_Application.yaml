@@ -26,6 +26,17 @@ pipeline:
           execution:
             steps:
               - stepGroup:
+                  name: Security
+                  identifier: Security
+                  template:
+                    templateRef: Code_Security
+                    versionLabel: v1.0.0
+                    templateInputs:
+                      variables:
+                        - name: WORKSPACE
+                          type: String
+                          value: <+input>
+              - stepGroup:
                   name: Build Package Upload War Files
                   identifier: Build_Package_Upload_War_Files
                   template:
