@@ -1,0 +1,73 @@
+template:
+  name: Build Package S3 War Files
+  identifier: Build_Package_S3_War_Files
+  versionLabel: v1.0.0
+  type: StepGroup
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    stageType: CI
+    steps:
+      - stepGroup:
+          name: Build Package Artifact
+          identifier: Build_Package_Artifact
+          steps:
+            - step:
+                type: Run
+                name: Build
+                identifier: Build
+                spec:
+                  connectorRef: <+input>
+                  image: docker.io/library/maven:3.9-eclipse-temurin-17
+                  shell: Sh
+                  command: |-
+                    cd ${WORKSPACE}
+                    echo "→ Building WAR..."
+                    mvn clean package -q -DskipTests
+                    echo "→ WAR created:"
+                    ls -la target/*.war
+                  envVariables:
+                    WORKSPACE: <+input>
+            - step:
+                type: Run
+                name: Package
+                identifier: Package
+                spec:
+                  shell: Bash
+                  command: |-
+                    cd <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>
+
+                    APP_NAME="merry"
+                    VERSION="1.0.<+pipeline.sequenceId>"
+                    TAR_NAME="${APP_NAME}-v${VERSION}.tar.gz"
+
+                    mkdir -p dist
+
+                    echo "→ Creating TAR package..."
+
+                    # First, find the actual WAR filename
+                    WAR_FILE=$(ls target/*.war | head -1)
+                    WAR_BASENAME=$(basename $WAR_FILE)
+
+                    echo "→ Found WAR: $WAR_BASENAME"
+
+                    # Create TAR with correct paths
+                    tar -czvf dist/${TAR_NAME} \
+                      -C target ${WAR_BASENAME} \
+                      -C ../config .
+
+                    echo "→ TAR created:"
+                    ls -la dist/
+
+                    echo "TAR_PATH=<+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>dist/${TAR_NAME}" >> $HARNESS_OUTPUT_FILE
+            - step:
+                type: S3Upload
+                name: S3Upload
+                identifier: S3Upload_1
+                spec:
+                  connectorRef: <+input>
+                  region: <+input>
+                  bucket: <+input>
+                  sourcePath: <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>/dist/*.tar.gz
+                  target: <+input>
