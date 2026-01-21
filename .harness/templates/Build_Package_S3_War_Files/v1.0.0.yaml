@@ -34,11 +34,16 @@ template:
 
               echo "Creating TAR package..."
               mkdir -p dist
+
+              WAR_FILE=$(ls target/*.war | head -1)
+              WAR_BASENAME=$(basename $WAR_FILE)
+
               tar -czvf dist/${TAR_NAME} \
                 -C target ${WAR_BASENAME} \
                 -C ../config .
-              ls -la
+
               echo "TAR created:"
+              ls -la dist/
 
               echo "TAR_PATH=<+stepGroup.variables.WORKSPACE>/dist/${TAR_NAME}" >> $HARNESS_OUTPUT_FILE
         contextType: StepGroupTemplate
