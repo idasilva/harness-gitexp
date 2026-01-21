@@ -65,6 +65,9 @@ pipeline:
                         - name: WORKSPACE
                           type: String
                           value: <+input>
+                        - name: WAR_APPLICATION_ARTIFACTORY_NAME
+                          type: String
+                          value: <+input>
   properties:
     ci:
       codebase:
