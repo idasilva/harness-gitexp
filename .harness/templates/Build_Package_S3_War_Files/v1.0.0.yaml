@@ -47,7 +47,7 @@ template:
 
               ARTIFACTORY_PATH="+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>/<+pipeline.sequenceId>/"
               mkdir -p ${ARTIFACTORY_PATH}
-              cp dist/${TAR_NAME} ${NEW_ARTIFACTORY_PATH}/
+              cp dist/${TAR_NAME} ${ARTIFACTORY_PATH}/
         contextType: StepGroupTemplate
       - step:
           type: S3Upload
