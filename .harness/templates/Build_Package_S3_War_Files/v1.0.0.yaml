@@ -30,28 +30,15 @@ template:
             shell: Bash
             command: |-
               cd <+stepGroup.variables.WORKSPACE>
+              TAR_NAME="<+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>-<+pipeline.sequenceId>.tar.gz"
 
-              APP_NAME="merry"
-              VERSION="1.0.<+pipeline.sequenceId>"
-              TAR_NAME="${APP_NAME}-v${VERSION}.tar.gz"
-
+              echo "Creating TAR package..."
               mkdir -p dist
-
-              echo "→ Creating TAR package..."
-
-              # First, find the actual WAR filename
-              WAR_FILE=$(ls target/*.war | head -1)
-              WAR_BASENAME=$(basename $WAR_FILE)
-
-              echo "→ Found WAR: $WAR_BASENAME"
-
-              # Create TAR with correct paths
               tar -czvf dist/${TAR_NAME} \
                 -C target ${WAR_BASENAME} \
                 -C ../config .
-
-              echo "→ TAR created:"
-              ls -la dist/
+              ls -la
+              echo "TAR created:"
 
               echo "TAR_PATH=<+stepGroup.variables.WORKSPACE>/dist/${TAR_NAME}" >> $HARNESS_OUTPUT_FILE
         contextType: StepGroupTemplate
@@ -68,6 +55,11 @@ template:
         contextType: StepGroupTemplate
     variables:
       - name: WORKSPACE
+        type: String
+        value: <+input>
+        description: ""
+        required: true
+      - name: WAR_APPLICATION_ARTIFACTORY_NAME
         type: String
         value: <+input>
         description: ""
