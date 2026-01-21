@@ -34,7 +34,7 @@ template:
                 spec:
                   shell: Bash
                   command: |-
-                    cd <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>
+                    cd <+stepGroup.variables.WORKSPACE>
 
                     APP_NAME="merry"
                     VERSION="1.0.<+pipeline.sequenceId>"
@@ -58,7 +58,7 @@ template:
                     echo "→ TAR created:"
                     ls -la dist/
 
-                    echo "TAR_PATH=<+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>dist/${TAR_NAME}" >> $HARNESS_OUTPUT_FILE
+                    echo "TAR_PATH=<+stepGroup.variables.WORKSPACE>/dist/${TAR_NAME}" >> $HARNESS_OUTPUT_FILE
             - step:
                 type: S3Upload
                 name: S3Upload
