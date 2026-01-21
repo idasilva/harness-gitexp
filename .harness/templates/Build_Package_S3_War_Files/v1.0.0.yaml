@@ -22,11 +22,17 @@ template:
                   image: docker.io/library/maven:3.9-eclipse-temurin-17
                   shell: Sh
                   command: |-
-                    cd <+stepGroup.variables.WORKSPACE>
+                    cd ${WORKSPACE}
                     echo "→ Building WAR..."
                     mvn clean package -q -DskipTests
                     echo "→ WAR created:"
                     ls -la target/*.war
+                  envVariables:
+                    WORKSPACE: <+stepGroup.variables.WORKSPACE>
+                  outputVariables:
+                    - name: WORKSPACE
+                      type: String
+                      value: <+stepGroup.variables.WORKSPACE>
             - step:
                 type: Run
                 name: Package
