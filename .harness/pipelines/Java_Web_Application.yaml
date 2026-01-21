@@ -46,7 +46,6 @@ pipeline:
                               connectorRef: <+input>
                               region: <+input>
                               bucket: <+input>
-                              target: <+input>
                       variables:
                         - name: WORKSPACE
                           type: String
