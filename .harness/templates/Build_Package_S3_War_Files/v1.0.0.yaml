@@ -45,7 +45,9 @@ template:
               echo "TAR created:"
               ls -la dist/
 
-              echo "TAR_PATH=<+stepGroup.variables.WORKSPACE>/dist/${TAR_NAME}" >> $HARNESS_OUTPUT_FILE
+              ARTIFACTORY_PATH="+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>/<+pipeline.sequenceId>/"
+              mkdir -p ${ARTIFACTORY_PATH}
+              cp dist/${TAR_NAME} ${NEW_ARTIFACTORY_PATH}/
         contextType: StepGroupTemplate
       - step:
           type: S3Upload
