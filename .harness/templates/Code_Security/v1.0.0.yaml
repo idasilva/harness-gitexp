@@ -101,7 +101,7 @@ template:
                   domain: https://sonarcloud.io/
                   ssl: true
                 tool:
-                  project_key: idasilva_harness
+                  project_key: <+stepGroup.variables.SONAR_PROJECT_KEY>
               failureStrategies:
                 - onFailure:
                     errors:
@@ -110,6 +110,11 @@ template:
                       type: Ignore
     variables:
       - name: WORKSPACE
+        type: String
+        value: <+input>
+        description: ""
+        required: true
+      - name: SONAR_PROJECT_KEY
         type: String
         value: <+input>
         description: ""
