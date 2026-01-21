@@ -48,24 +48,23 @@ pipeline:
                     gitBranch: main
                     templateInputs:
                       steps:
-                        - stepGroup:
-                            identifier: Build_Package_Artifact
-                            steps:
-                              - step:
-                                  identifier: Build
-                                  type: Run
-                                  spec:
-                                    connectorRef: <+input>
-                                    envVariables:
-                                      WORKSPACE: <+input>
-                              - step:
-                                  identifier: S3Upload_1
-                                  type: S3Upload
-                                  spec:
-                                    connectorRef: <+input>
-                                    region: <+input>
-                                    bucket: <+input>
-                                    target: <+input>
+                        - step:
+                            identifier: Build
+                            type: Run
+                            spec:
+                              connectorRef: <+input>
+                        - step:
+                            identifier: S3Upload_1
+                            type: S3Upload
+                            spec:
+                              connectorRef: <+input>
+                              region: <+input>
+                              bucket: <+input>
+                              target: <+input>
+                      variables:
+                        - name: WORKSPACE
+                          type: String
+                          value: <+input>
   properties:
     ci:
       codebase:
