@@ -67,7 +67,7 @@ template:
                   connectorRef: <+input>
                   region: <+input>
                   bucket: <+input>
-                  sourcePath: <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>/dist/*.tar.gz
+                  sourcePath: <+stepGroup.variables.WORKSPACE>/dist/*.tar.gz
                   target: <+input>
     variables:
       - name: WORKSPACE
