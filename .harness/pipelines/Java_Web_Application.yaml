@@ -36,6 +36,9 @@ pipeline:
                         - name: WORKSPACE
                           type: String
                           value: <+input>
+                        - name: SONAR_PROJECT_KEY
+                          type: String
+                          value: <+input>
               - stepGroup:
                   name: Build Package Upload War Files
                   identifier: Build_Package_Upload_War_Files
