@@ -36,7 +36,7 @@ template:
                 spec:
                   shell: Bash
                   command: |-
-                    cd <+stepGroup.variables.WORKSPACE>
+                    cd <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>
 
                     APP_NAME="merry"
                     VERSION="1.0.<+pipeline.sequenceId>"
@@ -69,6 +69,6 @@ template:
                   connectorRef: <+input>
                   region: <+input>
                   bucket: <+input>
-                  sourcePath: <+stepGroup.variables.WORKSPACE>/dist/*.tar.gz
+                  sourcePath: <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>/dist/*.tar.gz
                   target: <+input>
     variables: []
