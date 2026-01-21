@@ -20,6 +20,8 @@ template:
               - <+pipeline.sequenceId>
             dockerfile: <+stepGroup.variables.WORKSPACE>/Dockerfile
             context: <+stepGroup.variables.WORKSPACE>
+            envVariables:
+              PLUGIN_BUILDX_OPTIONS: "--output type=local,dest=test_output,platform-split=false"
       - step:
           type: Run
           name: Artifact Signing - Cosign Go Image
