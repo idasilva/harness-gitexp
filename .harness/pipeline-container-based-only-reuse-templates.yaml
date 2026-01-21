@@ -32,18 +32,6 @@ pipeline:
           execution:
             steps:
               - stepGroup:
-                  name: Code Security
-                  identifier: Code_Security
-                  template:
-                    templateRef: Code_Security
-                    versionLabel: v1.0.0
-                    gitBranch: main
-                    templateInputs:
-                      variables:
-                        - name: WORKSPACE
-                          type: String
-                          value: <+input>
-              - stepGroup:
                   name: Build Sing and Scan
                   identifier: Build_Sing_and_Scan
                   template:
@@ -55,5 +43,18 @@ pipeline:
                           type: String
                           value: <+input>
                         - name: DOCKER_REPOSITORY
+                          type: String
+                          value: <+input>
+                contextType: Pipeline
+              - stepGroup:
+                  name: Code Security
+                  identifier: Code_Security
+                  template:
+                    templateRef: Code_Security
+                    versionLabel: v1.0.0
+                    gitBranch: main
+                    templateInputs:
+                      variables:
+                        - name: WORKSPACE
                           type: String
                           value: <+input>
