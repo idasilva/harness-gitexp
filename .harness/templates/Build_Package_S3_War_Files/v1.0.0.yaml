@@ -29,6 +29,10 @@ template:
                     ls -la target/*.war
                   envVariables:
                     WORKSPACE: <+input>
+                  outputVariables:
+                    - name: WORKSPACE
+                      type: String
+                      value: <+stepGroup.steps.Build_Package_Artifact.steps.Build.spec.envVariables.WORKSPACE>
             - step:
                 type: Run
                 name: Package
