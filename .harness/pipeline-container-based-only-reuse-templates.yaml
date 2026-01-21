@@ -23,12 +23,6 @@ pipeline:
             override: true
           buildIntelligence:
             enabled: true
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Cloud
-            spec: {}
           execution:
             steps:
               - stepGroup:
@@ -58,3 +52,11 @@ pipeline:
                         - name: WORKSPACE
                           type: String
                           value: <+input>
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: k8s_cluster
+              namespace: devops
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
