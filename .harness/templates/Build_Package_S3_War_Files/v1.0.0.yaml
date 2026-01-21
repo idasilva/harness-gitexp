@@ -27,6 +27,8 @@ template:
                     mvn clean package -q -DskipTests
                     echo "→ WAR created:"
                     ls -la target/*.war
+                  envVariables:
+                    WORKSPACE: <+stepGroup.variables.WORKSPACE>
             - step:
                 type: Run
                 name: Package
