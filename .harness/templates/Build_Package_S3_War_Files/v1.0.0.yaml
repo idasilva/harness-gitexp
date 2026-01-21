@@ -55,7 +55,7 @@ template:
             connectorRef: <+input>
             region: <+input>
             bucket: <+input>
-            sourcePath: <+stepGroup.variables.WORKSPACE>/dist/*.tar.gz
+            sourcePath: <+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>/dist/*.tar.gz
             target: <+input>
         contextType: StepGroupTemplate
     variables:
