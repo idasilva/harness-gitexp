@@ -56,8 +56,6 @@ pipeline:
                                   type: Run
                                   spec:
                                     connectorRef: <+input>
-                                    envVariables:
-                                      WORKSPACE: <+input>
                               - step:
                                   identifier: S3Upload_1
                                   type: S3Upload
@@ -66,6 +64,10 @@ pipeline:
                                     region: <+input>
                                     bucket: <+input>
                                     target: <+input>
+                      variables:
+                        - name: WORKSPACE
+                          type: String
+                          value: <+input>
   properties:
     ci:
       codebase:
