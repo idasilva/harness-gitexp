@@ -75,3 +75,9 @@ pipeline:
         repoName: harness
         build: <+input>
         sparseCheckout: []
+  variables:
+    - name: SERVICE_WORKSPACE
+      type: String
+      description: ""
+      required: false
+      value: /harness/services/merry
