@@ -20,7 +20,15 @@ template:
             command: |-
               cd <+stepGroup.variables.WORKSPACE>
               mvn clean package -q -DskipTests
+              echo "======================================="
+              echo "Show all folders from the current path:"
+              ls -la
+              echo "======================================="
+
+              echo "======================================="
+              echo "Show all folders from the war artifactory path:"
               ls -la target/*.war
+              echo "======================================="
         contextType: StepGroupTemplate
       - step:
           type: Run
@@ -45,10 +53,21 @@ template:
               echo "TAR created:"
               ls -la dist/
 
+              echo "======================================="
+              echo "Show all folders from the current path:"
+              ls -la
+              echo "======================================="
+
               ARTIFACTORY_PATH="+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>/<+pipeline.sequenceId>/"
 
               mkdir -p /harness/${ARTIFACTORY_PATH}
               cp dist/${TAR_NAME} /harness/${ARTIFACTORY_PATH}/
+
+
+              echo "======================================="
+              echo "Show all folders from the artifactory path:"
+              ls -la /harness/${ARTIFACTORY_PATH}/
+              echo "======================================="
         contextType: StepGroupTemplate
       - step:
           type: S3Upload
