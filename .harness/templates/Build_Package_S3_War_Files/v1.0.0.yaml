@@ -59,7 +59,7 @@ template:
               ls -la
               echo "======================================="
 
-              ARTIFACTORY_PATH="+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>/<+pipeline.sequenceId>/"
+              ARTIFACTORY_PATH="<+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>/<+pipeline.sequenceId>/"
 
               mkdir -p /harness/${ARTIFACTORY_PATH}
               cp dist/${TAR_NAME} /harness/${ARTIFACTORY_PATH}/
