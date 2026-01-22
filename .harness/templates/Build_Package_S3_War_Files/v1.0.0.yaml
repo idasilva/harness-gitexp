@@ -35,7 +35,7 @@ template:
           name: Package
           identifier: Package
           spec:
-            shell: Bash
+            shell: Sh
             command: |-
               cd <+stepGroup.variables.WORKSPACE>
               TAR_NAME="<+stepGroup.variables.WAR_APPLICATION_ARTIFACTORY_NAME>-<+pipeline.sequenceId>.tar.gz"
@@ -55,6 +55,7 @@ template:
 
               echo "======================================="
               echo "Show all folders from the current path:"
+              pwd
               ls -la
               echo "======================================="
 
@@ -66,7 +67,10 @@ template:
 
               echo "======================================="
               echo "Show all folders from the artifactory path:"
+              pwd
               ls -la /harness/${ARTIFACTORY_PATH}/
+              cd /harness/${ARTIFACTORY_PATH}
+              pwd
               echo "======================================="
         contextType: StepGroupTemplate
       - step:
