@@ -1,0 +1,95 @@
+template:
+  name: Go Checks
+  identifier: Go_Specific_Validation
+  versionLabel: v1.0.0
+  type: StepGroup
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    stageType: CI
+    steps:
+      - parallel:
+          - step:
+              type: Run
+              name: Go Lint
+              identifier: Go_Lint
+              spec:
+                connectorRef: dockerhub_main
+                image: golangci/golangci-lint:v1.61-alpine
+                shell: Sh
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  golangci-lint run \
+                      --timeout=5m \
+                      --out-format=checkstyle \
+                      --issues-exit-code=0 \
+                      ./... > lint-report.xml || true
+
+                  golangci-lint run \
+                      --timeout=5m \
+                      --out-format=colored-line-number \
+                      ./...
+                reports:
+                  type: JUnit
+                  spec:
+                    paths:
+                      - <+stepGroup.variables.WORKSPACE>/lint-report.xml
+              contextType: Pipeline
+          - step:
+              type: Run
+              name: Go Vet
+              identifier: Go_Vet
+              spec:
+                connectorRef: dockerhub_main
+                image: golang:latest
+                shell: Bash
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  go vet ./...
+              contextType: Pipeline
+          - step:
+              type: Run
+              name: Go Test
+              identifier: Go_Test
+              spec:
+                connectorRef: dockerhub_main
+                image: golang:1.23-alpine
+                shell: Sh
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  export GOPATH=/root/go
+                  export PATH=$GOPATH/bin:$PATH
+                  go version
+                  go mod download
+                  go install github.com/jstemmer/go-junit-report/v2@latest
+                  go test -v ./... 2>&1 | tee report.out
+                  cat report.out | go-junit-report -set-exit-code > report.xml
+                reports:
+                  type: JUnit
+                  spec:
+                    paths:
+                      - <+stepGroup.variables.WORKSPACE>/report.xml
+              contextType: Pipeline
+          - step:
+              type: Run
+              name: Go Mod Tidy
+              identifier: Go_Mod_Tidy
+              spec:
+                connectorRef: dockerhub_main
+                image: golang:latest
+                shell: Bash
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  go mod tidy
+              contextType: Pipeline
+    variables:
+      - name: WORKSPACE
+        type: String
+        value: <+input>
+        description: Path to the Go project
+        required: true
