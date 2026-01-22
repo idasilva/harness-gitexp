@@ -1,5 +1,5 @@
 pipeline:
-  name: Java Web Application
+  name: DEVOPS - JAVA WEB APPLICATIONS WAR AND S3 ARTIFACTORY
   identifier: Java_Web_Application
   projectIdentifier: grand_line
   orgIdentifier: default
