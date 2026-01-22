@@ -72,6 +72,12 @@ template:
               cd /harness/${ARTIFACTORY_PATH}
               pwd
               echo "======================================="
+
+
+              echo "======================================="
+              echo "Show the artifactory variable:"
+              echo ${ARTIFACTORY_PATH}
+              echo "======================================="
         contextType: StepGroupTemplate
       - step:
           type: S3Upload
