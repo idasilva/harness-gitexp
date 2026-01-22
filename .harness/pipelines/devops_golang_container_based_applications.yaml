@@ -1,0 +1,61 @@
+pipeline:
+  name: DEVOPS - GOLANG CONTAINER BASED APPLICATION
+  identifier: DEVOPS_GOLANG_CONTAINER_BASED_APPLICATION
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github_main
+        repoName: harness
+        build: <+input>
+  stages:
+    - stage:
+        name: CI
+        identifier: CI
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - stepGroup:
+                  name: Code Quality and Security
+                  identifier: Code_Quality_and_Security
+                  template:
+                    templateRef: Code_Security
+                    versionLabel: v1.0.0
+                    templateInputs:
+                      variables:
+                        - name: WORKSPACE
+                          type: String
+                          value: <+input>
+                        - name: SONAR_PROJECT_KEY
+                          type: String
+                          value: <+input>
+              - stepGroup:
+                  name: Build Sign Scan and Push
+                  identifier: Build_Sign_Scan_and_Push
+                  template:
+                    templateRef: Build_Sign_Scan
+                    versionLabel: v1.0.0
+                    templateInputs:
+                      variables:
+                        - name: WORKSPACE
+                          type: String
+                          value: <+input>
+                        - name: DOCKER_REPOSITORY
+                          type: String
+                          value: <+input>
