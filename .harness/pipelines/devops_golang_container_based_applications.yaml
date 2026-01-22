@@ -46,6 +46,17 @@ pipeline:
                           type: String
                           value: <+input>
               - stepGroup:
+                  name: Go Checks
+                  identifier: Go_Checks
+                  template:
+                    templateRef: Go_Specific_Validation
+                    versionLabel: v1.0.0
+                    templateInputs:
+                      variables:
+                        - name: WORKSPACE
+                          type: String
+                          value: <+input>
+              - stepGroup:
                   name: Build Sign Scan and Push
                   identifier: Build_Sign_Scan_and_Push
                   template:
