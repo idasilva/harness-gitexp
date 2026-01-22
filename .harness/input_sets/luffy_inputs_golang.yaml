@@ -1,0 +1,51 @@
+inputSet:
+  pipeline:
+    identifier: DEVOPS_GOLANG_CONTAINER_BASED_APPLICATION
+    properties:
+      ci:
+        codebase:
+          build:
+            spec:
+              branch: main
+            type: branch
+    stages:
+      - stage:
+          identifier: CI
+          type: CI
+          spec:
+            execution:
+              steps:
+                - stepGroup:
+                    identifier: Code_Quality_and_Security
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/luffy
+                          - name: SONAR_PROJECT_KEY
+                            type: String
+                            value: luffy
+                - stepGroup:
+                    identifier: Go_Checks
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/luffy
+                - stepGroup:
+                    identifier: Build_Sign_Scan_and_Push
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/luffy
+                          - name: DOCKER_REPOSITORY
+                            type: String
+                            value: idasilva6/luffy
+  name: luffy_inputs_golang
+  identifier: luffy_inputs_golang
+  orgIdentifier: default
+  projectIdentifier: grand_line
