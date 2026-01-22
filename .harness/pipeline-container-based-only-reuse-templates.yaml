@@ -52,6 +52,9 @@ pipeline:
                         - name: WORKSPACE
                           type: String
                           value: <+input>
+                        - name: SONAR_PROJECT_KEY
+                          type: String
+                          value: <+input>
           infrastructure:
             type: KubernetesDirect
             spec:
