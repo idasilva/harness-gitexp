@@ -97,7 +97,7 @@ template:
                   args:
                     cli: "-Dsonar.organization=idasilva"
                 auth:
-                  access_token: <+secrets.getValue("sonar_token")>
+                  access_token: <+secrets.getValue("account.sonar_token")>
                   domain: https://sonarcloud.io/
                   ssl: true
                 tool:
