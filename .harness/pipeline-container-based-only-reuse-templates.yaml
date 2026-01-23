@@ -12,7 +12,7 @@ pipeline:
         build: <+input>
   stages:
     - stage:
-        name: Build and Package
+        name: CI
         identifier: Build_and_Package
         description: ""
         type: CI
@@ -64,3 +64,59 @@ pipeline:
               automountServiceAccountToken: true
               nodeSelector: {}
               os: Linux
+    - stage:
+        name: CD
+        identifier: CD
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: NativeHelm
+          service:
+            serviceRef: <+input>
+            serviceInputs: <+input>
+            failureStrategies:
+              - onFailure:
+                  errors:
+                    - AllErrors
+                  action:
+                    type: PipelineRollback
+          execution:
+            steps:
+              - step:
+                  type: HelmDeploy
+                  name: Helm Deploy
+                  identifier: Helm_Deploy
+                  spec:
+                    skipDryRun: false
+                    ignoreReleaseHistFailStatus: false
+                    delegateSelectors:
+                      - helm-delegate
+                  timeout: 10m
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: StageRollback
+            rollbackSteps: []
+          environment:
+            environmentRef: <+input>
+            deployToAll: false
+            environmentInputs: <+input>
+            serviceOverrideInputs: <+input>
+            infrastructureDefinitions: <+input>
+            failureStrategies:
+              - onFailure:
+                  errors:
+                    - AllErrors
+                  action:
+                    type: PipelineRollback
+        tags: {}
+        delegateSelectors:
+          - helm-delegate
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
