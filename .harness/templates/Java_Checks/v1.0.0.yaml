@@ -1,0 +1,57 @@
+template:
+  name: Java Checks
+  identifier: Java_Checks
+  versionLabel: v1.0.0
+  type: StepGroup
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    stageType: CI
+    steps:
+      - parallel:
+          - step:
+              type: Run
+              name: Checkstyle
+              identifier: Checkstyle
+              spec:
+                connectorRef: dockerhub_main
+                image: maven:latest
+                shell: Sh
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  mvn checkstyle:check
+              contextType: Pipeline
+          - step:
+              type: Run
+              name: PMD
+              identifier: PMD
+              spec:
+                connectorRef: dockerhub_main
+                image: maven:latest
+                shell: Sh
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  mvn pmd:check
+              contextType: Pipeline
+          - step:
+              type: Run
+              name: JUnit Tests
+              identifier: JUnit_Tests
+              spec:
+                connectorRef: dockerhub_main
+                image: maven:latest
+                shell: Sh
+                command: |-
+                  set -e
+                  cd  <+stepGroup.variables.WORKSPACE>
+                  mvn clean test
+              contextType: Pipeline
+    variables:
+      - name: WORKSPACE
+        type: String
+        value: <+input>
+        description: Path to the Java project
+        required: true
