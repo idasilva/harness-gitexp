@@ -1,0 +1,91 @@
+template:
+  name: Python Checks
+  identifier: Python_Specific_Validation
+  versionLabel: v1.0.0
+  type: StepGroup
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    stageType: CI
+    steps:
+      - step:
+          type: Run
+          identifier: dependencies
+          name: Dependencies
+          spec:
+            connectorRef: github_main
+            image: python:latest
+            shell: Sh
+            command: |-
+              set -e
+              cd <+stepGroup.variables.WORKSPACE>
+
+              python -m venv <+stepGroup.variables.VENV_PATH>
+
+              . <+stepGroup.variables.VENV_PATH>/bin/activate
+              python -m pip install --upgrade pip
+              pip install -r requirements.txt
+      - step:
+          type: Run
+          name: Flake8
+          identifier: Flake8
+          spec:
+            connectorRef: github_main
+            image: python:latest
+            shell: Sh
+            command: |-
+              set -e
+              cd <+stepGroup.variables.WORKSPACE>
+
+              . <+stepGroup.variables.VENV_PATH>/bin/activate
+
+              flake8 ./app
+          contextType: Pipeline
+      - step:
+          type: Run
+          name: MyPy
+          identifier: MyPy
+          spec:
+            connectorRef: github_main
+            image: python:latest
+            shell: Sh
+            command: |-
+              set -e
+              cd <+stepGroup.variables.WORKSPACE>
+
+              . <+stepGroup.variables.VENV_PATH>/bin/activate
+
+              mypy ./app
+          contextType: Pipeline
+      - step:
+          type: Run
+          name: Test
+          identifier: test
+          spec:
+            connectorRef: github_main
+            image: python:latest
+            shell: Sh
+            command: |-
+              set -e
+              cd <+stepGroup.variables.WORKSPACE>
+
+              . <+stepGroup.variables.VENV_PATH>/bin/activate
+
+              pytest . --junit-xml=report.xml
+            reports:
+              type: JUnit
+              spec:
+                paths:
+                  - report.xml
+    variables:
+      - name: WORKSPACE
+        type: String
+        value: <+input>
+        description: Path to the Python project
+        required: true
+      - name: VENV_PATH
+        type: String
+        value: <+stepGroup.variables.WORKSPACE>/.venv
+        description: Path to virtual environment
+        required: false
