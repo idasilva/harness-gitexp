@@ -1,0 +1,51 @@
+inputSet:
+  name: devops_python_input_set_container_based_applications
+  identifier: devops_python_input_set_container_based_applications
+  orgIdentifier: default
+  projectIdentifier: grand_line
+  pipeline:
+    identifier: DEVOPS_PYTHON_CONTAINER_BASED_APPLICATION
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
+    stages:
+      - stage:
+          identifier: CI
+          type: CI
+          spec:
+            execution:
+              steps:
+                - stepGroup:
+                    identifier: Code_Quality_and_Security
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/nami
+                          - name: SONAR_PROJECT_KEY
+                            type: String
+                            value: nami
+                - stepGroup:
+                    identifier: Python_Checks
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/nami
+                - stepGroup:
+                    identifier: Build_Sign_And_Push
+                    template:
+                      templateInputs:
+                        variables:
+                          - name: WORKSPACE
+                            type: String
+                            value: /harness/services/nami
+                          - name: DOCKER_REPOSITORY
+                            type: String
+                            value: idasilva6/nami
