@@ -74,3 +74,6 @@ pipeline:
                         - name: DOCKER_REPOSITORY
                           type: String
                           value: <+input>
+        sendGitStatus:
+          enabled: true
+          name: DevOps - Continuos Integration ( Quality, Security, Language Checks and Build Validation )
