@@ -75,5 +75,5 @@ pipeline:
                           type: String
                           value: <+input>
         sendGitStatus:
-          enabled: true
+          enabled: false
           name: DevOps - Continuos Integration ( Quality, Security, Language Checks and Build Validation )
