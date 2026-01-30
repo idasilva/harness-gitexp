@@ -1,0 +1,50 @@
+template:
+  name: AquaTrivy IAC Configuration
+  identifier: AquaTrivy_IAC_Configuration
+  versionLabel: v1.0.0
+  type: Stage
+  projectIdentifier: grand_line
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: IACM
+    spec:
+      workspace: <+input>
+      execution:
+        steps:
+          - step:
+              type: Run
+              name: AquaTrivy
+              identifier: AquaTrivy
+              spec:
+                connectorRef: dockerhub_main
+                image: aquasec/trivy
+                shell: Sh
+                command: |-
+                  echo "list the current dir...."
+                  ls
+                  pwd
+                  trivy config --format sarif -o /harness/report.sarif . --skip-dirs "LICENSE,Makefile,README.md,cd,ci,docs,infra,services"
+          - step:
+              type: CustomIngest
+              name: Ingestion
+              identifier: Ingestion
+              spec:
+                mode: ingestion
+                config: sarif
+                target:
+                  type: configuration
+                  name: infrasec
+                  variant: main
+                advanced:
+                  log:
+                    level: info
+                  fail_on_severity: low
+                ingestion:
+                  file: report.sarif
+      platform:
+        os: Linux
+        arch: Amd64
+      runtime:
+        type: Cloud
+        spec: {}
