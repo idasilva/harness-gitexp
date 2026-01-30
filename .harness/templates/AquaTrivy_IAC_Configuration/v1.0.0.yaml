@@ -48,3 +48,8 @@ template:
       runtime:
         type: Cloud
         spec: {}
+    failureStrategies:
+      - onFailure:
+          errors: []
+          action:
+            type: Abort
